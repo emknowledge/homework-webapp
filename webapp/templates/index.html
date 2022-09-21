@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Aktuelle Zertifizierungen vom Pexonian {% endblock %}</h1>
+    <h1>{% block title %} Aktuelle Zertifizierungen vom Pexonian  {% endblock %}</h1>
     <!--loop over each item in the posts list that was passed by the index() function-->
     {% for post in posts %}
     <!--url_for() function will return the proper URL for each post based on its ID-->
@@ -10,6 +10,7 @@
         </a>
         <!--adaptive bootstrap tag for adding context-->
         <span class="badge badge-primary">{{ post['created'] }}</span>
+        
         <!--passing in the post['id'] value to link to the edit page of each post with the Edit link-->
         <a href="{{ url_for('edit', id=post['id']) }}">
             <span class="badge badge-warning">Edit</span>

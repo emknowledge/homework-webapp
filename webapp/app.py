@@ -26,7 +26,7 @@ app.config['SECRET_KEY'] = 'your secret key'
 @app.route('/')
 def index():
     conn = get_db_connection()
-    posts = conn.execute('SELECT * FROM posts').fetchall()
+    posts = conn.execute('SELECT * FROM posts ORDER BY id DESC').fetchall()
     conn.close()
     # object as an argument, which contains the results you got from the database, 
     # this will allow you to access the posts in the index.html template.
@@ -43,14 +43,13 @@ def post(post_id):
 def create():
     if request.method == 'POST':
         title = request.form['title']
-        content = request.form['content']
 
         if not title:
-            flash('Title is required!')
+            flash('Zertifizierung ist erforderlich!')
         else:
             conn = get_db_connection()
-            conn.execute('INSERT INTO posts (title, content) VALUES (?, ?)',
-                         (title, content))
+            conn.execute('INSERT INTO posts (title) VALUES (?)', 
+            [title])
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
@@ -64,15 +63,14 @@ def edit(id):
 
     if request.method == 'POST':
         title = request.form['title']
-        content = request.form['content']
 
         if not title:
-            flash('Title is required!')
+            flash('Eingabe der Zertifizierung ist erforderlich!')
         else:
             conn = get_db_connection()
-            conn.execute('UPDATE posts SET title = ?, content = ?'
+            conn.execute('UPDATE posts SET title = ?'
                          ' WHERE id = ?',
-                         (title, content, id))
+                         (title, id))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
@@ -87,7 +85,7 @@ def delete(id):
     conn.execute('DELETE FROM posts WHERE id = ?', (id,))
     conn.commit()
     conn.close()
-    flash('"{}" was successfully deleted!'.format(post['title']))
+    flash('"{}" dein Zertifikat wurde Entfernt!'.format(post['title']))
     return redirect(url_for('index'))
     
 if __name__ =='__main__':
