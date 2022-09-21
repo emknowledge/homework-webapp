@@ -2,4 +2,13 @@
 
 {% block content %}
     <h1>{% block title %} Aktuelle Zertifizierungen vom Pexonian {% endblock %}</h1>
+    <!--loop over each item in the posts list that was passed by the index() function -->
+    {% for post in posts %}
+        <a href="#">
+            <h2>{{ post['title'] }}</h2>
+        </a>
+        <!--adaptive bootstrap tag for adding context-->
+        <span class="badge badge-primary">{{ post['created'] }}</span>
+        <hr>
+    {% endfor %}
 {% endblock %}
